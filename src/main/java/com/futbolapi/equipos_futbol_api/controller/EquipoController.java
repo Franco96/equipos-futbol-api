@@ -25,7 +25,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/equipos")
-@Tag(name = "equipos-funtbol-api", description = "Gestión de equipos de fútbol")
+@Tag(name = "equipos-futbol-api", description = "Gestión de equipos de fútbol")
 @RequiredArgsConstructor
 public class EquipoController {
 
