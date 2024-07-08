@@ -2,7 +2,7 @@ package com.futbolapi.equipos_futbol_api.controller;
 
 import com.futbolapi.equipos_futbol_api.config.util.JwtUtil;
 import com.futbolapi.equipos_futbol_api.controller.DTOs.requests.AuthRequestDTO;
-import com.futbolapi.equipos_futbol_api.controller.DTOs.AuthResponseDTO;
+import com.futbolapi.equipos_futbol_api.controller.DTOs.responses.AuthResponseDTO;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

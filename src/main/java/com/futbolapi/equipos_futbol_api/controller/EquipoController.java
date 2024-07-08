@@ -1,7 +1,8 @@
 package com.futbolapi.equipos_futbol_api.controller;
 
 
-import com.futbolapi.equipos_futbol_api.controller.DTOs.ErrorDTO;
+import com.futbolapi.equipos_futbol_api.controller.DTOs.responses.EquipoResponseDTO;
+import com.futbolapi.equipos_futbol_api.controller.DTOs.responses.ErrorResponseDTO;
 import com.futbolapi.equipos_futbol_api.controller.DTOs.requests.EquipoRequestDTO;
 import com.futbolapi.equipos_futbol_api.controller.mapper.EquipoMapper;
 import com.futbolapi.equipos_futbol_api.entities.Equipo;
@@ -34,8 +35,8 @@ public class EquipoController {
     @Operation(summary = "Consulta de Todos los Equipos", description = "Devuelve la lista de todos los equipos de fútbol registrados.")
     @ApiResponse(responseCode = "200", description = "Lista de todos los equipos",
             content = @Content(array = @ArraySchema(schema = @Schema(implementation = Equipo.class))))
-    public List<Equipo> getAllEquipos() {
-        return equipoService.getAllEquipos();
+    public List<EquipoResponseDTO> getAllEquipos() {
+        return EquipoMapper.INSTANCE.toResposeDTOList(equipoService.getAllEquipos());
     }
 
     @GetMapping("/{id}")
@@ -44,18 +45,18 @@ public class EquipoController {
             @ApiResponse(responseCode = "200", description = "Equipos encontrados",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = Equipo.class))),
             @ApiResponse(responseCode = "404", description = "No se encontro el equipo",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDTO.class)))
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponseDTO.class)))
     })
-    public Equipo getEquipoById(@PathVariable Long id) {
-        return equipoService.getEquipoById(id);
+    public EquipoResponseDTO getEquipoById(@PathVariable Long id) {
+        return EquipoMapper.INSTANCE.toResposeDTO(equipoService.getEquipoById(id));
     }
 
     @GetMapping("/buscar")
     @Operation(summary = "Consulta de un Equipo por nombre", description = "Devuelve los detalles de un equipo por nombre.")
     @ApiResponse(responseCode = "200", description = "Lista de equipos encontrados",
             content = @Content(array = @ArraySchema(schema = @Schema(implementation = Equipo.class))))
-    public List<Equipo> buscarEquiposPorNombre(@RequestParam(value = "nombre", required=false) String nombre) {
-        return equipoService.buscarEquiposPorNombre(nombre);
+    public List<EquipoResponseDTO> buscarEquiposPorNombre(@RequestParam(value = "nombre", required=false) String nombre) {
+        return EquipoMapper.INSTANCE.toResposeDTOList(equipoService.buscarEquiposPorNombre(nombre));
     }
 
     @PostMapping
@@ -64,11 +65,11 @@ public class EquipoController {
             @ApiResponse(responseCode = "201", description = "Equipo creado exitosamente",
                     content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Equipo.class))}),
             @ApiResponse(responseCode = "400", description = "Solicitud inválida",
-                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDTO.class))})
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponseDTO.class))})
     })
-    public ResponseEntity<Equipo> createEquipo(@Valid @RequestBody EquipoRequestDTO equipoRequestDTO) {
+    public ResponseEntity<EquipoResponseDTO> createEquipo(@Valid @RequestBody EquipoRequestDTO equipoRequestDTO) {
         Equipo nuevoEquipo = equipoService.createEquipo(EquipoMapper.INSTANCE.toEquipo(equipoRequestDTO));
-        return ResponseEntity.status(HttpStatus.CREATED).body(nuevoEquipo);
+        return ResponseEntity.status(HttpStatus.CREATED).body(EquipoMapper.INSTANCE.toResposeDTO(nuevoEquipo));
     }
 
     @PutMapping("/{id}")
@@ -77,10 +78,10 @@ public class EquipoController {
             @ApiResponse(responseCode = "200", description = "Equipo actualizado",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = Equipo.class))),
             @ApiResponse(responseCode = "404", description = "No se encontro el equipo",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDTO.class)))
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponseDTO.class)))
     })
-    public Equipo updateEquipo(@PathVariable Long id, @RequestBody EquipoRequestDTO equipo) {
-            return equipoService.updateEquipo(id, EquipoMapper.INSTANCE.toEquipo(equipo));
+    public EquipoResponseDTO updateEquipo(@PathVariable Long id, @RequestBody EquipoRequestDTO equipo) {
+            return EquipoMapper.INSTANCE.toResposeDTO(equipoService.updateEquipo(id, EquipoMapper.INSTANCE.toEquipo(equipo)));
     }
 
     @DeleteMapping("/{id}")
@@ -88,7 +89,7 @@ public class EquipoController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Equipo eliminado correctamente."),
             @ApiResponse(responseCode = "404", description = "No se encontro el equipo",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDTO.class)))
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponseDTO.class)))
     })
     public ResponseEntity<Void> deleteEquipo(@PathVariable Long id) {
         equipoService.deleteEquipo(id);

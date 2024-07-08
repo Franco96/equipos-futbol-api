@@ -1,7 +1,7 @@
 package com.futbolapi.equipos_futbol_api.config.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.futbolapi.equipos_futbol_api.controller.DTOs.ErrorDTO;
+import com.futbolapi.equipos_futbol_api.controller.DTOs.responses.ErrorResponseDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +22,6 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        response.getWriter().write(objectMapper.writeValueAsString(new ErrorDTO("Acceso no autorizado: token JWT no proporcionado o incorrecto",HttpStatus.UNAUTHORIZED.value())));
+        response.getWriter().write(objectMapper.writeValueAsString(new ErrorResponseDTO("Acceso no autorizado: token JWT no proporcionado o incorrecto",HttpStatus.UNAUTHORIZED.value())));
     }
 }
