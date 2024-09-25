@@ -29,7 +29,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class EquipoController {
 
- ///ffffdsf
+ ///ffff
     private final EquipoService equipoService;
 
     @GetMapping
