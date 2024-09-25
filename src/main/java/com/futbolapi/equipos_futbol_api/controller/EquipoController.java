@@ -29,7 +29,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class EquipoController {
 
-    //hola a todos
+
     private final EquipoService equipoService;
 
     @GetMapping
